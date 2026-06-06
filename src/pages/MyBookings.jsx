@@ -150,6 +150,21 @@ export default function MyBookings() {
     })
   }
 
+  const formatTravelDate = (dateStr) => {
+    if (!dateStr) return null
+    try {
+      const d = new Date(dateStr + 'T00:00:00')
+      return d.toLocaleDateString('en-AU', {
+        weekday: 'short',
+        day: 'numeric',
+        month: 'short',
+        year: 'numeric',
+      })
+    } catch {
+      return dateStr
+    }
+  }
+
   if (loading) {
     return (
       <div style={styles.loadingWrapper}>
@@ -204,6 +219,10 @@ export default function MyBookings() {
               <div style={styles.detailItem}>
                 <span style={styles.detailLabel}>Departure</span>
                 <span style={styles.detailValue}>{booking.departure_time}</span>
+              </div>
+              <div style={styles.detailItem}>
+                <span style={styles.detailLabel}>Date</span>
+                <span style={styles.detailValue}>{formatTravelDate(booking.travel_date) || 'Not specified'}</span>
               </div>
               <div style={styles.detailItem}>
                 <span style={styles.detailLabel}>Contact</span>
