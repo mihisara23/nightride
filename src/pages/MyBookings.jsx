@@ -211,11 +211,19 @@ export default function MyBookings() {
             }}
           >
             <div style={styles.bookingTop}>
-              <span style={styles.route}>{booking.pickup_stop}</span>
+              <span style={styles.route}>{booking.route_name || booking.pickup_stop}</span>
               <span style={styles.priceBadge}>${booking.price}</span>
             </div>
 
             <div style={styles.bookingGrid}>
+              <div style={styles.detailItem}>
+                <span style={styles.detailLabel}>Boarding</span>
+                <span style={styles.detailValue}>{booking.pickup_stop}</span>
+              </div>
+              <div style={styles.detailItem}>
+                <span style={styles.detailLabel}>Drop-off</span>
+                <span style={styles.detailValue}>{booking.dropoff_stop || '—'}</span>
+              </div>
               <div style={styles.detailItem}>
                 <span style={styles.detailLabel}>Departure</span>
                 <span style={styles.detailValue}>{booking.departure_time}</span>
@@ -224,6 +232,12 @@ export default function MyBookings() {
                 <span style={styles.detailLabel}>Date</span>
                 <span style={styles.detailValue}>{formatTravelDate(booking.travel_date) || 'Not specified'}</span>
               </div>
+              {booking.seats_count && (
+                <div style={styles.detailItem}>
+                  <span style={styles.detailLabel}>Seats</span>
+                  <span style={styles.detailValue}>{booking.seats_count}</span>
+                </div>
+              )}
               <div style={styles.detailItem}>
                 <span style={styles.detailLabel}>Contact</span>
                 <span style={styles.detailValue}>{booking.contact_number}</span>

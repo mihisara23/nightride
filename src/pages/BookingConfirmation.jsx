@@ -1,6 +1,6 @@
 import { useLocation, Link, Navigate } from 'react-router-dom'
 import BottomNav from '../components/BottomNav'
-import { CheckCircle, MapPin, Clock, Phone, DollarSign, ArrowRight } from 'lucide-react'
+import { CheckCircle, MapPin, Clock, Phone, DollarSign, ArrowRight, Calendar, Users, StickyNote } from 'lucide-react'
 
 const s = {
   page: { padding: '24px 20px 96px', minHeight: '100vh', display: 'flex', flexDirection: 'column', alignItems: 'center', animation: 'fadeIn 0.4s ease forwards' },
@@ -75,35 +75,83 @@ export default function BookingConfirmation() {
         <p style={s.subtitle}>Your ride is confirmed</p>
 
         <div style={s.card}>
+          {/* Route name */}
           <div style={s.detailRow}>
             <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
               <MapPin size={20} color="#00C9A7" />
             </div>
             <div>
               <div style={s.detailLabel}>Route</div>
-              <div style={s.detailValue}>{booking.pickup_stop}</div>
+              <div style={s.detailValue}>{booking.route_name || booking.pickup_stop}</div>
             </div>
           </div>
-          <div style={s.timeRow}>
-            <div style={s.timeCol}>
-              <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
-                <Clock size={20} color="#00C9A7" />
+
+          {/* Pickup → Dropoff */}
+          {booking.dropoff_stop && (
+            <div style={s.timeRow}>
+              <div style={s.timeCol}>
+                <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
+                  <MapPin size={20} color="#00C9A7" />
+                </div>
+                <div>
+                  <div style={s.detailLabel}>Boarding</div>
+                  <div style={s.detailValue}>{booking.pickup_stop}</div>
+                </div>
               </div>
-              <div>
-                <div style={s.detailLabel}>Departure</div>
-                <div style={s.detailValue}>{booking.departure_time}</div>
+              <div style={s.timeCol}>
+                <div style={{ ...s.detailIcon, background: 'rgba(255,107,53,0.1)' }}>
+                  <MapPin size={20} color="#FF6B35" />
+                </div>
+                <div>
+                  <div style={s.detailLabel}>Drop-off</div>
+                  <div style={s.detailValue}>{booking.dropoff_stop}</div>
+                </div>
               </div>
             </div>
-            <div style={s.timeCol}>
-              <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
-                <ArrowRight size={20} color="#00C9A7" />
-              </div>
-              <div>
-                <div style={s.detailLabel}>Arrival</div>
-                <div style={s.detailValue}>{booking.arrival_time}</div>
-              </div>
+          )}
+
+          {/* Departure */}
+          <div style={s.detailRow}>
+            <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
+              <Clock size={20} color="#00C9A7" />
+            </div>
+            <div>
+              <div style={s.detailLabel}>Departure</div>
+              <div style={s.detailValue}>{booking.departure_time}</div>
             </div>
           </div>
+
+          {/* Travel date */}
+          {booking.travel_date && (
+            <div style={s.detailRow}>
+              <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
+                <Calendar size={20} color="#00C9A7" />
+              </div>
+              <div>
+                <div style={s.detailLabel}>Travel Date</div>
+                <div style={s.detailValue}>
+                  {new Date(booking.travel_date + 'T00:00:00').toLocaleDateString('en-AU', {
+                    weekday: 'short', day: 'numeric', month: 'short', year: 'numeric',
+                  })}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Seats */}
+          {booking.seats_count && (
+            <div style={s.detailRow}>
+              <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
+                <Users size={20} color="#00C9A7" />
+              </div>
+              <div>
+                <div style={s.detailLabel}>Seats</div>
+                <div style={s.detailValue}>{booking.seats_count}</div>
+              </div>
+            </div>
+          )}
+
+          {/* Contact */}
           <div style={s.detailRow}>
             <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
               <Phone size={20} color="#00C9A7" />
@@ -113,12 +161,27 @@ export default function BookingConfirmation() {
               <div style={s.detailValue}>{booking.contact_number}</div>
             </div>
           </div>
+
+          {/* Notes */}
+          {booking.notes && (
+            <div style={s.detailRow}>
+              <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
+                <StickyNote size={20} color="#00C9A7" />
+              </div>
+              <div>
+                <div style={s.detailLabel}>Notes</div>
+                <div style={s.detailValue}>{booking.notes}</div>
+              </div>
+            </div>
+          )}
+
+          {/* Price */}
           <div style={{ ...s.detailRow, ...s.detailRowLast }}>
             <div style={{ ...s.detailIcon, background: 'rgba(0,201,167,0.1)' }}>
               <DollarSign size={20} color="#00C9A7" />
             </div>
             <div>
-              <div style={s.detailLabel}>Price</div>
+              <div style={s.detailLabel}>Total Price</div>
               <div style={{ ...s.detailValue, color: '#00C9A7' }}>${booking.price}</div>
             </div>
           </div>
