@@ -117,9 +117,22 @@ export default function BookingConfirmation() {
             </div>
             <div>
               <div style={s.detailLabel}>Departure</div>
-              <div style={s.detailValue}>{booking.departure_time}</div>
+              <div style={s.detailValue}>{booking.departure_time_display || booking.departure_time}</div>
             </div>
           </div>
+
+          {/* Arrival Time */}
+          {booking.arrival_time && (
+            <div style={s.detailRow}>
+              <div style={{ ...s.detailIcon, background: 'rgba(255,107,53,0.1)' }}>
+                <Clock size={20} color="#FF6B35" />
+              </div>
+              <div>
+                <div style={s.detailLabel}>Arrival Time</div>
+                <div style={s.detailValue}>{booking.arrival_time}</div>
+              </div>
+            </div>
+          )}
 
           {/* Travel date */}
           {booking.travel_date && (

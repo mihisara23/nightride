@@ -308,6 +308,8 @@ export default function BookRide() {
           pickup_stop: activeRoute.stops[boardingIdx].name,
           dropoff_stop: activeRoute.stops[dropoffIdx].name,
           departure_time: activeRoute.departure,
+          departure_time_display: activeRoute.stops[boardingIdx].time,
+          arrival_time: activeRoute.stops[dropoffIdx].time,
           contact_number: contact.trim(),
           price: totalPrice,
           travel_date: travelDate,
